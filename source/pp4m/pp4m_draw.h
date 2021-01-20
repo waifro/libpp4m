@@ -1,46 +1,13 @@
 /* Private Project Four Me */
 
+#ifndef _PP4M_DRAW_H
+#define _PP4M_DRAW_H
+
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
-#include "pp4m.h"
-#include "pp4m_ttf.h"
+SDL_Texture *pp4m_DRAW_TextureRect(SDL_Window *window, SDL_Renderer *renderer, SDL_Color color, SDL_Rect *rect, float x, float y, float w, float h);
 
-void pp4m_TTF_Init(void) {
-
-    TTF_Init();
-
-    return;
-
-}
-
-void pp4m_TTF_Quit(void) {
-
-    TTF_Quit();
-
-    return;
-
-}
-
-SDL_Texture *pp4m_TTF_TextureFont(SDL_Renderer *renderer, char filename[256], int size, SDL_Rect *rectsrc, float x, float y, char text[1024]) {
-
-    TTF_Font *font = NULL;
-
-    font = TTF_OpenFont(filename, size);
-
-    SDL_Surface *surface = TTF_RenderText_Solid(font, text, PP4M_WHITE);
-
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    SDL_FreeSurface(surface);
-
-    rectsrc->x = x;
-    rectsrc->y = y;
-    SDL_QueryTexture(texture, NULL, NULL, &rectsrc->w, &rectsrc->h);
-
-    return texture;
-
-}
+#endif // _PP4M_DRAW_H
 
 /*                                         Copyright (c) 2021 @richardwaifro //
 #                                                                                                                                                    #
