@@ -39,10 +39,6 @@ int main (int argc, char *argv[]) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
                 if( event.type == SDL_QUIT ) quit = true;
-
-                SDL_RenderCopy(global_renderer, global_texture, NULL, NULL);
-                SDL_RenderCopy(global_renderer, SansRegular_Title, NULL, &SansRegular_Rect);
-                SDL_RenderPresent(global_renderer);
         }
 
         SDL_RenderClear(global_renderer);
