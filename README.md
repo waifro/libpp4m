@@ -1,6 +1,6 @@
 # pp4m - Private Project Fo(u)r Me
 
-## An open-source project under MIT license
+## An open-source C project under MIT license
 ### Powered by SDL 2.0.xx libraries -libsdl2_image -libsdl2_ttf
 
 
