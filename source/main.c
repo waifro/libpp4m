@@ -17,7 +17,7 @@ SDL_Texture *background = NULL;
 
 int main (int argc, char *argv[]) {
 
-    global_renderer = pp4m_Init(&global_window, "pp4m_demo v0.02a", 1280, 720);
+    global_renderer = pp4m_Init(global_window, "pp4m_demo v0.02a", 1280, 720);
 
     background = pp4m_IMG_ImageToRenderer(global_renderer, "resources/images/wallpaper.png", 0, 0, 0, 0, 0);
 
@@ -31,9 +31,7 @@ int main (int argc, char *argv[]) {
 
     bool quit = false;
 
-    int red_stats, green_stats, blue_stats;
-
-    red_stats = 1;
+    int red_stats = 1, green_stats = 0, blue_stats = 0;
 
     while(!quit) {
 
