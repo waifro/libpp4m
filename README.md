@@ -1,4 +1,10 @@
-# pp4m
+# pp4m - Private Project Fo(u)r Me
+
+## An open-source project under MIT license
+### Powered by SDL 2.0.xx libraries -libsdl2_image -libsdl2_ttf
+
+
+This project aims to be a very usable, versatile, portable library for graphics application for any device
 
 Copyright (c) 2021 @richardwaifro
 
