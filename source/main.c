@@ -15,9 +15,12 @@ SDL_Window *global_window = NULL;
 SDL_Renderer *global_renderer = NULL;
 SDL_Texture *background = NULL;
 
-int main (int argc, char *argv[]) {
+int win_width = 1280;
+int win_heigth = 720;
 
-    global_renderer = pp4m_Init(global_window, "pp4m_demo v0.02a", 1280, 720);
+int main(int argc, char *argv[]) {
+
+    global_renderer = pp4m_Init(global_window, "pp4m_demo v0.02a", win_width, win_heigth);
 
     background = pp4m_IMG_ImageToRenderer(global_renderer, "resources/images/wallpaper.png", 0, 0, 0, 0, 0);
 
@@ -26,12 +29,13 @@ int main (int argc, char *argv[]) {
     SansRegular_Title = pp4m_TTF_TextureFont(global_renderer, "resources/ttf/OpenSans-Regular.ttf", 24, &SansRegular_Rect, (640 - 50), (360 - 23), "Welcome!");
 
     SDL_Rect RainbowRect;
-    SDL_Color rainbow = PP4M_BLACK;
-    SDL_Texture *RainbowSquare = NULL;
+    SDL_Color rainbow = PP4M_WHITE; rainbow.a = 150;
+    SDL_Texture *RainbowSquare = pp4m_DRAW_TextureRect(global_renderer, rainbow, &RainbowRect, (win_width / 2 - 150), (win_heigth / 2 - 75), 300, 150);
+    SDL_SetTextureAlphaMod(RainbowSquare, rainbow.a);
 
     bool quit = false;
 
-    int red_stats = 1, green_stats = 0, blue_stats = 0;
+    int red_stats = 0, green_stats = 0, blue_stats = 0;
 
     while(!quit) {
 
@@ -41,16 +45,7 @@ int main (int argc, char *argv[]) {
                 if( event.type == SDL_QUIT ) quit = true;
         }
 
-        RainbowSquare = pp4m_DRAW_TextureRect(global_window, global_renderer, rainbow, &RainbowRect, (1280 / 2 - 150), (720 / 2 - 75), 300, 150);
-
-        if (red_stats == 1) rainbow.r += 1;
-        else if (red_stats == -1) rainbow.r -= 1;
-
-        if (green_stats == 1) rainbow.g += 1;
-        else if (green_stats == -1) rainbow.g -= 1;
-
-        if (blue_stats == 1) rainbow.b += 1;
-        else if (blue_stats == -1) rainbow.b -= 1;
+        SDL_SetTextureColorMod(RainbowSquare, rainbow.r, rainbow.g, rainbow.b);
 
         if (rainbow.r >= 255) {
             if (red_stats == 1 && rainbow.b <= 0) red_stats = 0;
@@ -58,12 +53,12 @@ int main (int argc, char *argv[]) {
         }
         else if (rainbow.r <= 0) {
             if (red_stats == -1) red_stats = 0;
-            else if (red_stats == 0) red_stats = 1;
+            else if (red_stats == 0 && rainbow.g <= 0 && rainbow.b <= 0) red_stats = 1;
         }
 
         if (rainbow.g >= 255) {
             if (green_stats == 1) green_stats = 0;
-            else if (green_stats == 0 && rainbow.r <= 0 && rainbow.b <= 255) green_stats = -1;
+            else if (green_stats == 0 && rainbow.b <= 255 && rainbow.r <= 0) green_stats = -1;
         }
         else if (rainbow.g <= 0) {
             if (green_stats == -1) green_stats = 0;
@@ -79,6 +74,15 @@ int main (int argc, char *argv[]) {
             else if (blue_stats == 0 && rainbow.g >= 255 && rainbow.r >= 255) blue_stats = 1;
         }
 
+        if (red_stats == 1) rainbow.r += 1;
+        else if (red_stats == -1) rainbow.r -= 1;
+
+        if (green_stats == 1) rainbow.g += 1;
+        else if (green_stats == -1) rainbow.g -= 1;
+
+        if (blue_stats == 1) rainbow.b += 1;
+        else if (blue_stats == -1) rainbow.b -= 1;
+
         SDL_RenderClear(global_renderer);
         SDL_RenderCopy(global_renderer, background, NULL, NULL);
         SDL_RenderCopy(global_renderer, RainbowSquare, NULL, &RainbowRect);
@@ -86,6 +90,10 @@ int main (int argc, char *argv[]) {
         SDL_RenderPresent(global_renderer);
 
     }
+
+    SDL_DestroyTexture(background);
+    SDL_DestroyTexture(RainbowSquare);
+    SDL_DestroyTexture(SansRegular_Title);
 
     SDL_DestroyRenderer(global_renderer);
     SDL_DestroyWindow(global_window);
