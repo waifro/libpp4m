@@ -1,5 +1,7 @@
 /* Private Project Four Me */
 
+#include <time.h>
+#include <string.h>
 #include <SDL2/SDL.h>
 
 #include "pp4m.h"
@@ -41,4 +43,13 @@ void pp4m_Quit(void) {
 
     return;
 
+}
+
+void pp4m_GetDateAndTime(char *dst) {
+
+    time_t date;
+    time(&date);
+    strcpy(dst, ctime(&date));
+
+    return;
 }

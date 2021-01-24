@@ -22,21 +22,21 @@ void pp4m_TTF_Quit(void) {
 
 }
 
-SDL_Texture *pp4m_TTF_TextureFont(SDL_Renderer *renderer, char filename[256], int size, SDL_Rect *rectsrc, float x, float y, char text[1024]) {
+SDL_Texture *pp4m_TTF_TextureFont(SDL_Renderer *renderer, char filename[256], SDL_Color color, int size, SDL_Rect *dst, float x, float y, char text[1024]) {
 
     TTF_Font *font = NULL;
 
     font = TTF_OpenFont(filename, size);
 
-    SDL_Surface *surface = TTF_RenderText_Solid(font, text, PP4M_WHITE);
+    SDL_Surface *surface = TTF_RenderText_Blended(font, text, color);
 
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(surface);
 
-    rectsrc->x = x;
-    rectsrc->y = y;
-    SDL_QueryTexture(texture, NULL, NULL, &rectsrc->w, &rectsrc->h);
+    dst->x = x;
+    dst->y = y;
+    SDL_QueryTexture(texture, NULL, NULL, &dst->w, &dst->h);
 
     return texture;
 

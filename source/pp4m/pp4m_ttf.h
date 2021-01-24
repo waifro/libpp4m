@@ -6,7 +6,7 @@
 void pp4m_TTF_Init(void);
 void pp4m_TTF_Quit(void);
 
-SDL_Texture *pp4m_TTF_TextureFont(SDL_Renderer *renderer, char filename[256], int size, SDL_Rect *rectsrc, float x, float y, char text[1024]);
+SDL_Texture *pp4m_TTF_TextureFont(SDL_Renderer *renderer, char filename[256], SDL_Color color, int size, SDL_Rect *dst, float x, float y, char text[1024]);
 
 #endif // _PP4M_TTF_H
 

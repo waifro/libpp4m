@@ -12,7 +12,6 @@ bool pp4m_IO_CheckFile(char filename[256]) {
     if(check == false) {
         if (fopen(filename, "rb") != NULL) {
                 check = true;
-                remove(filename);
         }
     }
 
@@ -21,7 +20,7 @@ bool pp4m_IO_CheckFile(char filename[256]) {
 
 void pp4m_IO_Feedback(char filename[256], const char text[1024]) {
 
-    pp4m_IO_CheckFile(filename);
+    if (pp4m_IO_CheckFile(filename) == true) remove(filename);
 
     FILE *td = NULL;
     td = fopen(filename, "wa");

@@ -14,7 +14,17 @@ extern SDL_Color PP4M_YELLOW;
 extern SDL_Color PP4M_PINK;
 extern SDL_Color PP4M_CYAN;
 
+typedef struct {
+    char text[1024];
+    SDL_Rect rect;
+    SDL_Color color;
+    SDL_Surface *surface;
+    SDL_Texture *texture;
+} PP4M_SDL;
+
 SDL_Renderer *pp4m_Init(SDL_Window *window, char title[256], int width, int height);
 void pp4m_Quit(void);
+
+void pp4m_GetDateAndTime(char *dst);
 
 #endif // _PP4M_H

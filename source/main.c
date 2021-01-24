@@ -24,14 +24,14 @@ int main(int argc, char *argv[]) {
 
     background = pp4m_IMG_ImageToRenderer(global_renderer, "resources/images/wallpaper.png", 0, 0, 0, 0, 0);
 
-    SDL_Rect SansRegular_Rect;
-    SDL_Texture *SansRegular_Title = NULL;
-    SansRegular_Title = pp4m_TTF_TextureFont(global_renderer, "resources/ttf/OpenSans-Regular.ttf", 24, &SansRegular_Rect, (640 - 50), (360 - 23), "Welcome!");
+    PP4M_SDL Title;
+    Title.texture = pp4m_TTF_TextureFont(global_renderer, "resources/ttf/OpenSans-Regular.ttf", PP4M_WHITE, 24, &Title.rect, (640 - 50), (360 - 23), "Welcome!");
 
-    SDL_Rect RainbowRect;
-    SDL_Color rainbow = PP4M_WHITE; rainbow.a = 150;
-    SDL_Texture *RainbowSquare = pp4m_DRAW_TextureRect(global_renderer, rainbow, &RainbowRect, (win_width / 2 - 150), (win_heigth / 2 - 75), 300, 150);
-    SDL_SetTextureAlphaMod(RainbowSquare, rainbow.a);
+    PP4M_SDL Rainbow;
+    Rainbow.color = PP4M_WHITE;
+    Rainbow.texture = pp4m_DRAW_TextureRect(global_renderer, Rainbow.color, &Rainbow.rect, (win_width / 2 - 150), (win_heigth / 2 - 75), 300, 150);
+
+    PP4M_SDL DateAndTime;
 
     bool quit = false;
 
@@ -45,55 +45,62 @@ int main(int argc, char *argv[]) {
                 if( event.type == SDL_QUIT ) quit = true;
         }
 
-        SDL_SetTextureColorMod(RainbowSquare, rainbow.r, rainbow.g, rainbow.b);
+        SDL_SetTextureColorMod(Rainbow.texture, Rainbow.color.r, Rainbow.color.g, Rainbow.color.b);
 
-        if (rainbow.r >= 255) {
-            if (red_stats == 1 && rainbow.b <= 0) red_stats = 0;
-            else if (red_stats == 0 && rainbow.b >= 255 && rainbow.g >= 255) red_stats = -1;
+        if (Rainbow.color.r >= 255) {
+            if (red_stats == 1 && Rainbow.color.b <= 0) red_stats = 0;
+            else if (red_stats == 0 && Rainbow.color.b >= 255 && Rainbow.color.g >= 255) red_stats = -1;
         }
-        else if (rainbow.r <= 0) {
+        else if (Rainbow.color.r <= 0) {
             if (red_stats == -1) red_stats = 0;
-            else if (red_stats == 0 && rainbow.g <= 0 && rainbow.b <= 0) red_stats = 1;
+            else if (red_stats == 0 && Rainbow.color.g <= 0 && Rainbow.color.b <= 0) red_stats = 1;
         }
 
-        if (rainbow.g >= 255) {
+        if (Rainbow.color.g >= 255) {
             if (green_stats == 1) green_stats = 0;
-            else if (green_stats == 0 && rainbow.b <= 255 && rainbow.r <= 0) green_stats = -1;
+            else if (green_stats == 0 && Rainbow.color.b <= 255 && Rainbow.color.r <= 0) green_stats = -1;
         }
-        else if (rainbow.g <= 0) {
+        else if (Rainbow.color.g <= 0) {
             if (green_stats == -1) green_stats = 0;
-            else if (green_stats == 0 && rainbow.r >= 255 && rainbow.b <= 0) green_stats = 1;
+            else if (green_stats == 0 && Rainbow.color.r >= 255 && Rainbow.color.b <= 0) green_stats = 1;
         }
 
-        if (rainbow.b >= 255) {
+        if (Rainbow.color.b >= 255) {
             if (blue_stats == 1) blue_stats = 0;
-            else if (blue_stats == 0 && rainbow.r <= 0 && rainbow.g <= 0) blue_stats = -1;
+            else if (blue_stats == 0 && Rainbow.color.r <= 0 && Rainbow.color.g <= 0) blue_stats = -1;
         }
-        else if (rainbow.b <= 0) {
+        else if (Rainbow.color.b <= 0) {
             if (blue_stats == -1) blue_stats = 0;
-            else if (blue_stats == 0 && rainbow.g >= 255 && rainbow.r >= 255) blue_stats = 1;
+            else if (blue_stats == 0 && Rainbow.color.g >= 255 && Rainbow.color.r >= 255) blue_stats = 1;
         }
 
-        if (red_stats == 1) rainbow.r += 1;
-        else if (red_stats == -1) rainbow.r -= 1;
+        if (red_stats == 1) Rainbow.color.r += 1;
+        else if (red_stats == -1) Rainbow.color.r -= 1;
 
-        if (green_stats == 1) rainbow.g += 1;
-        else if (green_stats == -1) rainbow.g -= 1;
+        if (green_stats == 1) Rainbow.color.g += 1;
+        else if (green_stats == -1) Rainbow.color.g -= 1;
 
-        if (blue_stats == 1) rainbow.b += 1;
-        else if (blue_stats == -1) rainbow.b -= 1;
+        if (blue_stats == 1) Rainbow.color.b += 1;
+        else if (blue_stats == -1) Rainbow.color.b -= 1;
+
+        pp4m_GetDateAndTime(DateAndTime.text);
+        DateAndTime.texture = pp4m_TTF_TextureFont(global_renderer, "resources/ttf/OpenSans-Regular.ttf", PP4M_WHITE, 30, &DateAndTime.rect, (win_width - 348), 1,  DateAndTime.text);
 
         SDL_RenderClear(global_renderer);
         SDL_RenderCopy(global_renderer, background, NULL, NULL);
-        SDL_RenderCopy(global_renderer, RainbowSquare, NULL, &RainbowRect);
-        SDL_RenderCopy(global_renderer, SansRegular_Title, NULL, &SansRegular_Rect);
+        SDL_RenderCopy(global_renderer, Rainbow.texture, NULL, &Rainbow.rect);
+        SDL_RenderCopy(global_renderer, Title.texture, NULL, &Title.rect);
+        SDL_RenderCopy(global_renderer, DateAndTime.texture, NULL, &DateAndTime.rect);
         SDL_RenderPresent(global_renderer);
 
+        // needs to improve deleting memory (workaround)
+        SDL_DestroyTexture(DateAndTime.texture);
     }
 
     SDL_DestroyTexture(background);
-    SDL_DestroyTexture(RainbowSquare);
-    SDL_DestroyTexture(SansRegular_Title);
+    SDL_DestroyTexture(Rainbow.texture);
+    SDL_DestroyTexture(Title.texture);
+    SDL_DestroyTexture(DateAndTime.texture);
 
     SDL_DestroyRenderer(global_renderer);
     SDL_DestroyWindow(global_window);
@@ -102,19 +109,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
-/*                                         Copyright (c) 2021 @richardwaifro //
-#                                                                                                                                                    #
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), #
-# to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, #
-# and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:         #
-# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.                     #
-#                                                                                                                                                    #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,                                                                                    #
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,                                                                #
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.                                                                                              #
-# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,                                                                        #
-# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,                                                     #
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                                            #
-#                                                                                                                                                    #
-/#                                         Copyright (c) 2021 @richardwaifro */
