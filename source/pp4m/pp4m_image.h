@@ -6,11 +6,7 @@
 void pp4m_IMG_Init(void);
 void pp4m_IMG_Quit(void);
 
-SDL_Texture *pp4m_IMG_ImageToRenderer(SDL_Renderer *renderer,
-                         char path[1024],
-                         SDL_Rect *rect,
-                         float x, float y,
-                         int w, int h);
+SDL_Texture *pp4m_IMG_ImageToRenderer(SDL_Renderer *renderer, char path[1024], SDL_Rect *rect, float x, float y, int w, int h);
 
 #endif // _PP4M_IMAGE_H
 
