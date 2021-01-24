@@ -88,6 +88,21 @@ int pp4m_NET_ServerStart(int port) {
     return result;
 }
 
+int pp4m_NET_GetLocalAddress(char *destination) {
+    int result = 0;
+
+    char buf[256];
+    result = gethostname(buf, sizeof(buf));
+    if (result == -1) {
+        int error = errno;
+        pp4m_IO_Feedback("feedback.txt", strerror(error));
+    }
+
+    if (result == 0) strcpy(destination, buf);
+
+    return result;
+}
+
 int pp4m_NET_ConnectServerHostname(char *hostname, int port) {
     int result = 0;
 

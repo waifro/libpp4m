@@ -17,6 +17,7 @@ int pp4m_NET_Init(PP4M_NET_IPPROTO protocol);
 int pp4m_NET_Quit(void);
 
 int pp4m_NET_ServerStart(int port);
+int pp4m_NET_GetLocalAddress(char *destination);
 
 int pp4m_NET_ConnectServerByAddress(char *address, int port);
 int pp4m_NET_ConnectServerHostname(char *hostname, int port);
