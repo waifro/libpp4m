@@ -27,4 +27,7 @@ void pp4m_Quit(void);
 
 void pp4m_GetDateAndTime(char *dst);
 
+int pp4m_SecondsTick(void) ;
+int pp4m_Framerate(void);
+
 #endif // _PP4M_H

@@ -2,6 +2,7 @@
 
 #include <time.h>
 #include <string.h>
+#include <stdbool.h>
 #include <SDL2/SDL.h>
 
 #include "pp4m.h"
@@ -52,4 +53,46 @@ void pp4m_GetDateAndTime(char *dst) {
     strcpy(dst, ctime(&date));
 
     return;
+}
+
+int pp4m_SecondsTick(void) {
+
+    static int result = 0;
+    static bool copy_once = false;
+    static clock_t ticks_dif;
+
+    clock_t ticks_cur = clock();
+
+    if (copy_once == false) {
+        ticks_dif = ticks_cur;
+        copy_once = true;
+    }
+
+    if ((ticks_cur / 1000) != (ticks_dif / 1000)) {
+        copy_once = false;
+        result ^= 1;
+    }
+
+    return result;
+}
+
+int pp4m_Framerate(void) {
+
+    static int count = 0;
+    int result = 0;
+
+    // count each frame after rendering
+    static int frame = 0;
+    frame += 1;
+
+    // get ticks per milliseconds
+    unsigned int ticks;
+    ticks = clock();
+
+    if (pp4m_SecondsTick() != count) {
+        count ^= 1;
+        result = (frame / (ticks / 1000));
+    }
+
+    return result;
 }

@@ -22,7 +22,12 @@ void pp4m_TTF_Quit(void) {
 
 }
 
-SDL_Texture *pp4m_TTF_TextureFont(SDL_Renderer *renderer, char filename[256], SDL_Color color, int size, SDL_Rect *dst, float x, float y, char text[1024]) {
+SDL_Texture *pp4m_TTF_TextureFont(SDL_Renderer *renderer, SDL_Texture *texture, char filename[256], SDL_Color color, int size, SDL_Rect *dst, float x, float y, char text[1024]) {
+
+    if (texture != NULL) {
+        SDL_DestroyTexture(texture);
+        texture = NULL;
+    }
 
     TTF_Font *font = NULL;
 
@@ -30,9 +35,10 @@ SDL_Texture *pp4m_TTF_TextureFont(SDL_Renderer *renderer, char filename[256], SD
 
     SDL_Surface *surface = TTF_RenderText_Blended(font, text, color);
 
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(surface);
+    TTF_CloseFont(font);
 
     dst->x = x;
     dst->y = y;

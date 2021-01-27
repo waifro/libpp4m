@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 #include <SDL2/SDL.h>
@@ -10,6 +11,8 @@
 #include "pp4m/pp4m_image.h"
 #include "pp4m/pp4m_ttf.h"
 #include "pp4m/pp4m_draw.h"
+
+#define OPENSANS_REGULAR "resources/ttf/OpenSans-Regular.ttf"
 
 SDL_Window *global_window = NULL;
 SDL_Renderer *global_renderer = NULL;
@@ -25,7 +28,7 @@ int main(int argc, char *argv[]) {
     background = pp4m_IMG_ImageToRenderer(global_renderer, "resources/images/wallpaper.png", 0, 0, 0, 0, 0);
 
     PP4M_SDL Title;
-    Title.texture = pp4m_TTF_TextureFont(global_renderer, "resources/ttf/OpenSans-Regular.ttf", PP4M_WHITE, 24, &Title.rect, (640 - 50), (360 - 23), "Welcome!");
+    Title.texture = pp4m_TTF_TextureFont(global_renderer, Title.texture, OPENSANS_REGULAR, PP4M_WHITE, 24, &Title.rect, (640 - 50), (360 - 23), "Welcome!");
 
     PP4M_SDL Rainbow;
     Rainbow.color = PP4M_WHITE;
@@ -33,17 +36,30 @@ int main(int argc, char *argv[]) {
 
     PP4M_SDL DateAndTime;
 
-    bool quit = false;
-
     int red_stats = 0, green_stats = 0, blue_stats = 0;
 
-    while(!quit) {
+    PP4M_SDL Framerate;
+    Framerate.color = PP4M_YELLOW;
+    int frame = 0; int count = 0;
 
-        SDL_Event event;
+    SDL_Event event;
+    while(1) {
 
-        while (SDL_PollEvent(&event)) {
-                if( event.type == SDL_QUIT ) quit = true;
+        SDL_PollEvent(&event);
+        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) break;
+        if( event.type == SDL_QUIT ) break;
+
+        frame = pp4m_Framerate();
+
+        if (pp4m_SecondsTick() != count) {
+            sprintf(Framerate.text, "%d", frame);
+
+            pp4m_GetDateAndTime(DateAndTime.text);
+            DateAndTime.texture = pp4m_TTF_TextureFont(global_renderer, DateAndTime.texture, OPENSANS_REGULAR, PP4M_WHITE, 30, &DateAndTime.rect, (win_width - 355), 1,  DateAndTime.text);
+            count ^= 1;
         }
+
+        Framerate.texture = pp4m_TTF_TextureFont(global_renderer, Framerate.texture, OPENSANS_REGULAR, Framerate.color, 24, &Framerate.rect, 2, 2, Framerate.text);
 
         SDL_SetTextureColorMod(Rainbow.texture, Rainbow.color.r, Rainbow.color.g, Rainbow.color.b);
 
@@ -83,23 +99,23 @@ int main(int argc, char *argv[]) {
         if (blue_stats == 1) Rainbow.color.b += 1;
         else if (blue_stats == -1) Rainbow.color.b -= 1;
 
-        pp4m_GetDateAndTime(DateAndTime.text);
-        DateAndTime.texture = pp4m_TTF_TextureFont(global_renderer, "resources/ttf/OpenSans-Regular.ttf", PP4M_WHITE, 30, &DateAndTime.rect, (win_width - 348), 1,  DateAndTime.text);
-
         SDL_RenderClear(global_renderer);
         SDL_RenderCopy(global_renderer, background, NULL, NULL);
         SDL_RenderCopy(global_renderer, Rainbow.texture, NULL, &Rainbow.rect);
         SDL_RenderCopy(global_renderer, Title.texture, NULL, &Title.rect);
+
         SDL_RenderCopy(global_renderer, DateAndTime.texture, NULL, &DateAndTime.rect);
+        SDL_RenderCopy(global_renderer, Framerate.texture, NULL, &Framerate.rect);
+
         SDL_RenderPresent(global_renderer);
 
-        // needs to improve deleting memory (workaround)
-        SDL_DestroyTexture(DateAndTime.texture);
+        // needs to improve memory leak
     }
 
     SDL_DestroyTexture(background);
     SDL_DestroyTexture(Rainbow.texture);
     SDL_DestroyTexture(Title.texture);
+    SDL_DestroyTexture(Framerate.texture);
     SDL_DestroyTexture(DateAndTime.texture);
 
     SDL_DestroyRenderer(global_renderer);
