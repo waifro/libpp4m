@@ -23,9 +23,9 @@ int win_heigth = 720;
 
 int main(int argc, char *argv[]) {
 
-    global_renderer = pp4m_Init(global_window, "pp4m_demo v0.02a", win_width, win_heigth);
+    global_renderer = pp4m_Init(global_window, "pp4m_demo v0.03a", win_width, win_heigth);
 
-    background = pp4m_IMG_ImageToRenderer(global_renderer, "resources/images/wallpaper.png", 0, 0, 0, 0, 0);
+    background = pp4m_IMG_ImageToRenderer(global_renderer, background, "resources/images/wallpaper.png", 0, 0, 0, 0, 0);
 
     PP4M_SDL Title;
     Title.texture = pp4m_TTF_TextureFont(global_renderer, Title.texture, OPENSANS_REGULAR, PP4M_WHITE, 24, &Title.rect, (640 - 50), (360 - 23), "Welcome!");
@@ -56,10 +56,9 @@ int main(int argc, char *argv[]) {
 
             pp4m_GetDateAndTime(DateAndTime.text);
             DateAndTime.texture = pp4m_TTF_TextureFont(global_renderer, DateAndTime.texture, OPENSANS_REGULAR, PP4M_WHITE, 30, &DateAndTime.rect, (win_width - 355), 1,  DateAndTime.text);
+            Framerate.texture = pp4m_TTF_TextureFont(global_renderer, Framerate.texture, OPENSANS_REGULAR, Framerate.color, 16, &Framerate.rect, 1, 1, Framerate.text);
             count ^= 1;
         }
-
-        Framerate.texture = pp4m_TTF_TextureFont(global_renderer, Framerate.texture, OPENSANS_REGULAR, Framerate.color, 24, &Framerate.rect, 2, 2, Framerate.text);
 
         SDL_SetTextureColorMod(Rainbow.texture, Rainbow.color.r, Rainbow.color.g, Rainbow.color.b);
 
@@ -109,7 +108,6 @@ int main(int argc, char *argv[]) {
 
         SDL_RenderPresent(global_renderer);
 
-        // needs to improve memory leak
     }
 
     SDL_DestroyTexture(background);

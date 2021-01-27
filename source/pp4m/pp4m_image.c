@@ -20,13 +20,18 @@ void pp4m_IMG_Quit(void) {
 
 }
 
-SDL_Texture *pp4m_IMG_ImageToRenderer(SDL_Renderer *renderer, char path[1024], SDL_Rect *rect, float x, float y, int w, int h) {
+SDL_Texture *pp4m_IMG_ImageToRenderer(SDL_Renderer *renderer, SDL_Texture *texture, char path[1024], SDL_Rect *rect, float x, float y, int w, int h) {
+
+    if (texture != NULL) {
+        SDL_DestroyTexture(texture);
+        texture = NULL;
+    }
 
     SDL_Surface *surface = IMG_Load(path);
 
     if (surface == NULL) pp4m_IO_Feedback("feedback.txt", SDL_GetError());
 
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
 
     if (texture == NULL) pp4m_IO_Feedback("feedback.txt", SDL_GetError());
 
