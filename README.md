@@ -5,7 +5,7 @@
 (libs used are: `lsdl2`, `lsdl2_image`, `lsdl2_ttf`, `lws2_32`)
 
 ### It is currently under development, so use it with caution. 
-This project aims to be a very usable, versatile, portable library for graphics application for any device
+This project aims to be a very usable, versatile, portable library for graphics applications and more for any device
 (including Linux distros, Android, Windows, Nintendo Switch, Playstation 4, Xbox and more...)
 
 
