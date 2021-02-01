@@ -3,6 +3,10 @@
 #ifndef _PP4M_H
 #define _PP4M_H
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDl2/SDL_ttf.h>
+
 extern SDL_Color PP4M_BLACK;
 extern SDL_Color PP4M_WHITE;
 
@@ -18,6 +22,7 @@ typedef struct {
     char text[1024];
     SDL_Rect rect;
     SDL_Color color;
+    TTF_Font *font;
     SDL_Surface *surface;
     SDL_Texture *texture;
 } PP4M_SDL;

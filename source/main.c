@@ -28,13 +28,18 @@ int main(int argc, char *argv[]) {
     background = pp4m_IMG_ImageToRenderer(global_renderer, background, "resources/images/wallpaper.png", 0, 0, 0, 0, 0);
 
     PP4M_SDL Title;
-    Title.texture = pp4m_TTF_TextureFont(global_renderer, Title.texture, OPENSANS_REGULAR, PP4M_WHITE, 24, &Title.rect, (640 - 50), (360 - 23), "Welcome!");
+    pp4m_TTF_MEM_TextureFont(global_renderer, &Title, "Welcome!", OPENSANS_REGULAR, 24, (640 - 50), (360 - 23), PP4M_WHITE);
+
+    PP4M_SDL Info;
+    pp4m_TTF_MEM_TextureFont(global_renderer, &Info, "Testing a string!", OPENSANS_REGULAR, 20, (640 - 50 - 25), (360 - 23 - 50), PP4M_WHITE);
 
     PP4M_SDL Rainbow;
     Rainbow.color = PP4M_WHITE;
     Rainbow.texture = pp4m_DRAW_TextureRect(global_renderer, Rainbow.color, &Rainbow.rect, (win_width / 2 - 150), (win_heigth / 2 - 75), 300, 150);
 
     PP4M_SDL DateAndTime;
+    DateAndTime.texture = pp4m_TTF_TextureFont(global_renderer, DateAndTime.texture, OPENSANS_REGULAR, PP4M_WHITE, 30, &DateAndTime.rect, (win_width - 355), 1,  DateAndTime.text);
+    // pp4m_TTF_TextureFont deprecated (memory segfault)
 
     int red_stats = 0, green_stats = 0, blue_stats = 0;
 
@@ -55,12 +60,13 @@ int main(int argc, char *argv[]) {
             sprintf(Framerate.text, "%d", frame);
 
             pp4m_GetDateAndTime(DateAndTime.text);
-            DateAndTime.texture = pp4m_TTF_TextureFont(global_renderer, DateAndTime.texture, OPENSANS_REGULAR, PP4M_WHITE, 30, &DateAndTime.rect, (win_width - 355), 1,  DateAndTime.text);
             Framerate.texture = pp4m_TTF_TextureFont(global_renderer, Framerate.texture, OPENSANS_REGULAR, Framerate.color, 16, &Framerate.rect, 1, 1, Framerate.text);
             count ^= 1;
         }
 
         SDL_SetTextureColorMod(Rainbow.texture, Rainbow.color.r, Rainbow.color.g, Rainbow.color.b);
+
+        DateAndTime.texture = pp4m_TTF_TextureFont(global_renderer, DateAndTime.texture, OPENSANS_REGULAR, PP4M_WHITE, 30, &DateAndTime.rect, (win_width - 355), 1,  DateAndTime.text);
 
         if (Rainbow.color.r >= 255) {
             if (red_stats == 1 && Rainbow.color.b <= 0) red_stats = 0;
@@ -102,7 +108,7 @@ int main(int argc, char *argv[]) {
         SDL_RenderCopy(global_renderer, background, NULL, NULL);
         SDL_RenderCopy(global_renderer, Rainbow.texture, NULL, &Rainbow.rect);
         SDL_RenderCopy(global_renderer, Title.texture, NULL, &Title.rect);
-
+        SDL_RenderCopy(global_renderer, Info.texture, NULL, &Info.rect);
         SDL_RenderCopy(global_renderer, DateAndTime.texture, NULL, &DateAndTime.rect);
         SDL_RenderCopy(global_renderer, Framerate.texture, NULL, &Framerate.rect);
 
@@ -113,6 +119,7 @@ int main(int argc, char *argv[]) {
     SDL_DestroyTexture(background);
     SDL_DestroyTexture(Rainbow.texture);
     SDL_DestroyTexture(Title.texture);
+    SDL_DestroyTexture(Info.texture);
     SDL_DestroyTexture(Framerate.texture);
     SDL_DestroyTexture(DateAndTime.texture);
 
