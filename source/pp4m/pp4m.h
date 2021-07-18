@@ -5,9 +5,11 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDl2/SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 
 extern SDL_Color PP4M_BLACK;
+extern SDL_Color PP4M_GREY;
+extern SDL_Color PP4M_GREY_DARK;
 extern SDL_Color PP4M_WHITE;
 
 extern SDL_Color PP4M_RED;
@@ -27,7 +29,7 @@ typedef struct {
     SDL_Texture *texture;
 } PP4M_SDL;
 
-SDL_Renderer *pp4m_Init(SDL_Window *window, char title[256], int width, int height);
+SDL_Renderer *pp4m_Init(SDL_Window *window, char *title, int width, int height);
 void pp4m_Quit(void);
 
 void pp4m_GetDateAndTime(char *dst);
