@@ -1,6 +1,6 @@
 # pp4m - Private Project Fo(u)r Me
 
-## An open-source C project under MIT license
+## An open-source C project
 ### Powered by SDL 2.0 and Networking (sockets) simplified
 (libs used are: `lsdl2`, `lsdl2_image`, `lsdl2_ttf`, `lws2_32`)
 
