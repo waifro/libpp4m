@@ -22,10 +22,11 @@ int win_width = 1280;
 int win_heigth = 720;
 
 int main(int argc, char *argv[]) {
+    (void)argc; (void)argv;
 
-    global_renderer = pp4m_Init(global_window, "pp4m_demo v0.03a", win_width, win_heigth);
+    global_renderer = pp4m_Init(global_window, "pp4m_demo v0.04a", win_width, win_heigth, WINDOW);
 
-    background = pp4m_IMG_ImageToRenderer(global_renderer, background, "resources/images/wallpaper.png", 0, 0, 0, 0, 0);
+    background = pp4m_IMG_ImageToTexture(global_renderer, background, "resources/images/wallpaper.png", 0, 0, 0, 0, 0);
 
     PP4M_SDL Title;
     pp4m_TTF_MEM_TextureFont(global_renderer, &Title, "Welcome!", OPENSANS_REGULAR, 24, (640 - 50), (360 - 23), PP4M_WHITE);
@@ -35,10 +36,11 @@ int main(int argc, char *argv[]) {
 
     PP4M_SDL Rainbow;
     Rainbow.color = PP4M_WHITE;
-    Rainbow.texture = pp4m_DRAW_TextureRect(global_renderer, Rainbow.color, &Rainbow.rect, (win_width / 2 - 150), (win_heigth / 2 - 75), 300, 150);
+    Rainbow.texture = pp4m_DRAW_TextureInitColor(global_renderer, Rainbow.color, &Rainbow.rect, (win_width / 2 - 150), (win_heigth / 2 - 75), 300, 150);
 
     PP4M_SDL DateAndTime;
-    DateAndTime.texture = pp4m_TTF_TextureFont(global_renderer, DateAndTime.texture, OPENSANS_REGULAR, PP4M_WHITE, 30, &DateAndTime.rect, (win_width - 355), 1,  DateAndTime.text);
+    pp4m_TTF_MEM_TextureFont(global_renderer, &DateAndTime, DateAndTime.text, OPENSANS_REGULAR, 30, 1, (win_width - 355), PP4M_WHITE);
+
     // pp4m_TTF_TextureFont deprecated (memory segfault)
 
     int red_stats = 0, green_stats = 0, blue_stats = 0;
@@ -60,13 +62,13 @@ int main(int argc, char *argv[]) {
             sprintf(Framerate.text, "%d", frame);
 
             pp4m_GetDateAndTime(DateAndTime.text);
-            Framerate.texture = pp4m_TTF_TextureFont(global_renderer, Framerate.texture, OPENSANS_REGULAR, Framerate.color, 16, &Framerate.rect, 1, 1, Framerate.text);
+            pp4m_TTF_MEM_TextureFont(global_renderer, &Framerate, Framerate.text, OPENSANS_REGULAR, 16, 1, 1, Framerate.color);
             count ^= 1;
         }
 
         SDL_SetTextureColorMod(Rainbow.texture, Rainbow.color.r, Rainbow.color.g, Rainbow.color.b);
 
-        DateAndTime.texture = pp4m_TTF_TextureFont(global_renderer, DateAndTime.texture, OPENSANS_REGULAR, PP4M_WHITE, 30, &DateAndTime.rect, (win_width - 355), 1,  DateAndTime.text);
+        pp4m_TTF_MEM_TextureFont(global_renderer, &DateAndTime, DateAndTime.text, OPENSANS_REGULAR, 30, 1, (win_width - 355), PP4M_WHITE);
 
         if (Rainbow.color.r >= 255) {
             if (red_stats == 1 && Rainbow.color.b <= 0) red_stats = 0;
@@ -79,7 +81,7 @@ int main(int argc, char *argv[]) {
 
         if (Rainbow.color.g >= 255) {
             if (green_stats == 1) green_stats = 0;
-            else if (green_stats == 0 && Rainbow.color.b <= 255 && Rainbow.color.r <= 0) green_stats = -1;
+            else if (green_stats == 0 && Rainbow.color.b < 255 && Rainbow.color.r <= 0) green_stats = -1;
         }
         else if (Rainbow.color.g <= 0) {
             if (green_stats == -1) green_stats = 0;
@@ -123,10 +125,7 @@ int main(int argc, char *argv[]) {
     SDL_DestroyTexture(Framerate.texture);
     SDL_DestroyTexture(DateAndTime.texture);
 
-    SDL_DestroyRenderer(global_renderer);
-    SDL_DestroyWindow(global_window);
-
-    pp4m_Quit();
+    pp4m_Quit(global_window, global_renderer);
 
     return 0;
 }

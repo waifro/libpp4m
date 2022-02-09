@@ -10,4 +10,4 @@ void pp4m_IO_Feedback(char *filename, const char *text);
 
 #endif // _PP4M_IO_H
 
-/* 2021 @richardwaifro */
+/* 2022 @waifro */

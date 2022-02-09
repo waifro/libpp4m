@@ -29,8 +29,16 @@ typedef struct {
     SDL_Texture *texture;
 } PP4M_SDL;
 
-SDL_Renderer *pp4m_Init(SDL_Window *window, char *title, int width, int height);
-void pp4m_Quit(void);
+typedef enum {
+
+    WINDOW,
+    WINDOW_FULLSCREEN,
+    WINDOW_RESIZABLE
+
+} PP4M_WINDOW_SIZE;
+
+SDL_Renderer *pp4m_Init(SDL_Window *window, char *title, int width, int height, PP4M_WINDOW_SIZE size);
+void pp4m_Quit(SDL_Window *window, SDL_Renderer *renderer);
 
 void pp4m_GetDateAndTime(char *dst);
 
@@ -39,5 +47,4 @@ int pp4m_Framerate(void);
 
 #endif // _PP4M_H
 
-
-/* 2021 @richardwaifro */
+/* 2022 @waifro */
