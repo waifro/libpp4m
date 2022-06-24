@@ -153,8 +153,8 @@ PP4M_HOOK *pp4m_HOOK_Init(void) {
 
 int pp4m_HOOK_Size(PP4M_HOOK *head) {
     PP4M_HOOK *current = head; int size = 0;
-    while (size++) {
-		if (current->next == NULL) break;
+    while (current->ptr != NULL) {
+		size++;
         current = current->next;
     }
     return (size);
