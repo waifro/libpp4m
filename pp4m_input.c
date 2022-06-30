@@ -154,7 +154,8 @@ int pp4m_INPUT_ConvertSdlKey_letter(int sdlk) {
 
 int pp4m_INPUT_ConvertSdlKey_symbol(int sdlk) {
     int result = -1;
-
+	SDL_Keymod modk = SDL_GetModState();
+	
     switch (sdlk) {
     default:
         break;
@@ -175,7 +176,7 @@ int pp4m_INPUT_ConvertSdlKey_symbol(int sdlk) {
 		result = '-';
 		break;
     case SDLK_EXCLAIM:
-        result = '!';
+        if (modk == KMOD_SHIFT) result = '!';
         break;
     case SDLK_QUESTION:
         result = '?';
