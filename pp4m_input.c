@@ -158,7 +158,22 @@ int pp4m_INPUT_ConvertSdlKey_symbol(int sdlk) {
     switch (sdlk) {
     default:
         break;
-
+	
+	case SDLK_PERIOD:
+		result = '.';
+		break;
+	case SDLK_COMMA:
+		result = ',';
+		break;
+	case SDLK_PLUS:
+		result = '+';
+		break;
+	case SDLK_ASTERISK:
+		result = '*';
+		break;
+	case SDLK_MINUS:
+		result = '-';
+		break;
     case SDLK_EXCLAIM:
         result = '!';
         break;
