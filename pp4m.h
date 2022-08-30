@@ -7,6 +7,9 @@
 
 #include <time.h>
 #include <stdbool.h>
+
+#if __has_include(<SDL/SDL2.h>)
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -37,6 +40,8 @@ typedef struct {
     SDL_Texture *texture;
 } PP4M_SDL;
 
+#endif // __has_include
+
 typedef enum {
 
     WINDOW,
@@ -57,8 +62,12 @@ typedef struct {
     int *h;
 } PP4M_HOOK_RECT;
 
+#if __has_include(<SDL/SDL2.h>)
+
 SDL_Renderer *pp4m_Init(SDL_Window *window, char *title, int width, int height, PP4M_WINDOW_SIZE size);
 void pp4m_Quit(SDL_Window *window, SDL_Renderer *renderer);
+
+#endif // __has_include
 
 void pp4m_GetDateAndTime(char *dst);
 clock_t pp4m_LimitFramerate(clock_t framepersec);

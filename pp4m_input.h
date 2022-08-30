@@ -1,6 +1,8 @@
 #ifndef PP4M_INPUT_H
 #define PP4M_INPUT_H
 
+#if __has_include("pp4m_input.h")
+
 #include <SDL2/SDL.h>
 
 typedef struct {
@@ -21,5 +23,7 @@ int pp4m_INPUT_SdlKeyboard(SDL_Event *event);
 PP4M_INPUT_POS pp4m_INPUT_InitInputPos(void);
 void pp4m_INPUT_GetMouseState(SDL_Event *event, PP4M_INPUT_POS *foo);
 PP4M_INPUT_POS  pp4m_INPUT_MouseState(SDL_Event *event);
+
+#endif
 
 #endif // PP4M_INPUT_H

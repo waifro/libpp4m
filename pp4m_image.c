@@ -1,4 +1,7 @@
 /* Private Project Four Me */
+
+#if __has_include("pp4m_image.h")
+
 #include <stdio.h>
 
 #include <SDL2/SDL.h>
@@ -67,5 +70,7 @@ SDL_Texture *pp4m_IMG_ImageToTexture(SDL_Renderer *renderer, SDL_Texture *textur
 
     return texture;
 }
+
+#endif
 
 /* 2022 @waifro */

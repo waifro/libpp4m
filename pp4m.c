@@ -4,11 +4,19 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-#include <SDL2/SDL.h>
 
 #include "pp4m.h"
+
+#if __has_include(<SDL/SDL2.h>)
+
+#include <SDL2/SDL.h>
+
 #include "pp4m_image.h"
 #include "pp4m_ttf.h"
+
+#endif
+
+#if __has_include(<SDL/SDL2.h>)
 
 SDL_Color PP4M_BLACK = {0, 0, 0, 255};
 
@@ -58,6 +66,8 @@ void pp4m_Quit(SDL_Window *window, SDL_Renderer *renderer) {
     return;
 
 }
+
+#endif // __has_include
 
 void pp4m_GetDateAndTime(char *dst) {
 

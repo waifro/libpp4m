@@ -1,5 +1,7 @@
 /* Private Project Four Me */
 
+#if __has_include("pp4m_draw.h")
+
 #include <SDL2/SDL.h>
 #include "pp4m_draw.h"
 
@@ -225,5 +227,7 @@ SDL_Texture *pp4m_DRAW_TextureInitColor(SDL_Renderer *renderer, SDL_Color color,
     return texture;
 
 }
+
+#endif
 
 /* 2022 @waifro */

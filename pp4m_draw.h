@@ -3,6 +3,8 @@
 #ifndef _PP4M_DRAW_H
 #define _PP4M_DRAW_H
 
+#if __has_include("pp4m_draw.h")
+
 #include <SDL2/SDL.h>
 
 typedef struct {
@@ -25,6 +27,8 @@ int pp4m_DRAW_TextureDrawCircle_Filled(SDL_Renderer * renderer, SDL_Texture *tex
 
 SDL_Texture *pp4m_DRAW_TextureInitColor_Target(SDL_Renderer *renderer, SDL_Color color, int alpha, SDL_Rect *rect, float x, float y, float w, float h);
 SDL_Texture *pp4m_DRAW_TextureInitColor(SDL_Renderer *renderer, SDL_Color color, SDL_Rect *rect, float x, float y, float w, float h);
+
+#endif
 
 #endif // _PP4M_DRAW_H
 

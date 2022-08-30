@@ -1,5 +1,7 @@
 /* Private Project Four Me */
 
+#if __has_include("pp4m_ttf.h")
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
@@ -65,5 +67,7 @@ SDL_Texture *pp4m_TTF_TextureFont(SDL_Renderer *renderer, char *filename, SDL_Co
     return (texture);
 
 }
+
+#endif 
 
 /* 2022 @waifro */

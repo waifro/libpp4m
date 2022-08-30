@@ -1,3 +1,6 @@
+
+#if __has_include("pp4m_input.h")
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -333,3 +336,5 @@ PP4M_INPUT_POS pp4m_INPUT_MouseState(SDL_Event *event) {
 
     return foo;
 }
+
+#endif
