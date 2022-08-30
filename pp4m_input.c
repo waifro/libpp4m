@@ -155,11 +155,11 @@ int pp4m_INPUT_ConvertSdlKey_letter(int sdlk) {
 int pp4m_INPUT_ConvertSdlKey_symbol(int sdlk) {
     int result = -1;
 	SDL_Keymod modk = SDL_GetModState();
-	
+
     switch (sdlk) {
     default:
         break;
-	
+
 	case SDLK_PERIOD:
 		result = '.';
 		break;
@@ -290,21 +290,23 @@ int pp4m_INPUT_SdlKeyboard(SDL_Event *event) {
 
 void pp4m_INPUT_GetMouseState(SDL_Event *event, PP4M_INPUT_POS *foo) {
 
-    foo->iner = -1;
-
     SDL_GetMouseState(&foo->x, &foo->y);
 
-    if (foo->iner == 0 && event->type == SDL_MOUSEBUTTONDOWN)
-        foo->iner = 0;
-
-    else if (foo->iner == 1 && event->type == SDL_MOUSEBUTTONDOWN)
-        foo->iner = 0;
-
-    else if (event->type == SDL_MOUSEBUTTONDOWN)
+    if (foo->iner == -1 && event->type == SDL_MOUSEBUTTONDOWN) {
         foo->iner = 1;
+    }
 
-    else
+    else if (foo->iner == 1 && event->type == SDL_MOUSEBUTTONUP) {
         foo->iner = -1;
+    }
+
+    else if (foo->iner == 1 && event->type == SDL_MOUSEBUTTONDOWN) {
+        foo->iner = 0;
+    }
+
+    else if (foo->iner == 0 && event->type == SDL_MOUSEBUTTONUP) {
+        foo->iner = -1;
+    }
 
     return;
 }
@@ -316,14 +318,14 @@ PP4M_INPUT_POS pp4m_INPUT_MouseState(SDL_Event *event) {
 
     if (once == false && event->type == SDL_MOUSEBUTTONDOWN) {
 
-        printf("TOUCH_MouseState:  touch detected\n");
+        //printf("TOUCH_MouseState:  touch detected\n");
         SDL_GetMouseState(&foo.x, &foo.y);
         foo.iner = 1;
         once = true;
 
     } else if (once == true && event->type == SDL_MOUSEBUTTONUP) {
 
-        printf("TOUCH_MouseState:  touch undetected\n");
+        //printf("TOUCH_MouseState:  touch undetected\n");
         foo.iner = -1;
         once = false;
 

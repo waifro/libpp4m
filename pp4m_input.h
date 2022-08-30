@@ -18,6 +18,7 @@ int pp4m_INPUT_KeyboardHit(void);
 
 int pp4m_INPUT_SdlKeyboardKey(int sdlk);
 int pp4m_INPUT_SdlKeyboard(SDL_Event *event);
+PP4M_INPUT_POS pp4m_INPUT_InitInputPos(void);
 void pp4m_INPUT_GetMouseState(SDL_Event *event, PP4M_INPUT_POS *foo);
 PP4M_INPUT_POS  pp4m_INPUT_MouseState(SDL_Event *event);
 
