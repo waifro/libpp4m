@@ -2,6 +2,7 @@
 
 #include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 
@@ -13,10 +14,6 @@
 
 #include "pp4m_image.h"
 #include "pp4m_ttf.h"
-
-#endif
-
-#if __has_include(<SDL/SDL2.h>)
 
 SDL_Color PP4M_BLACK = {0, 0, 0, 255};
 
