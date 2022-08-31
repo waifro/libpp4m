@@ -8,7 +8,7 @@
 
 #include "pp4m.h"
 
-#if __has_include(<SDL/SDL2.h>)
+#if __has_include(<SDL2/SDL.h>)
 
 #include <SDL2/SDL.h>
 

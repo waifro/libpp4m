@@ -1,6 +1,6 @@
 /* Private Project Four Me */
 
-#if __has_include("pp4m_ttf.h")
+#if __has_include(<SDL2/SDL_ttf.h>)
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
