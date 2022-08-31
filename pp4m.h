@@ -62,7 +62,7 @@ typedef struct {
     int *h;
 } PP4M_HOOK_RECT;
 
-#if __has_include(<SDL/SDL2.h>)
+#if __has_include(<SDL2/SDL.h>)
 
 SDL_Renderer *pp4m_Init(SDL_Window *window, char *title, int width, int height, PP4M_WINDOW_SIZE size);
 void pp4m_Quit(SDL_Window *window, SDL_Renderer *renderer);
