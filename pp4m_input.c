@@ -282,10 +282,10 @@ int pp4m_INPUT_SdlKeyboardKey(int sdlk) {
 int pp4m_INPUT_SdlKeyboard(SDL_Event *event) {
     int result = 0;
 
-    while(SDL_PollEvent(event)) {
+    //while(SDL_PollEvent(event)) {
         if (event->type == SDL_QUIT) result = -1;
         else if (event->type == SDL_KEYDOWN) result = pp4m_INPUT_SdlKeyboardKey(event->key.keysym.sym);
-    }
+    //}
 
     return result;
 }
