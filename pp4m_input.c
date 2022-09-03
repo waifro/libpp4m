@@ -290,6 +290,16 @@ int pp4m_INPUT_SdlKeyboard(SDL_Event *event) {
     return result;
 }
 
+PP4M_INPUT_POS pp4m_INPUT_InitInputPos(void) {
+	
+	PP4M_INPUT_POS input;
+	
+	input.x = 0;
+	input.y = 0;
+	input.iner = -1;
+	
+	return input;
+}
 
 void pp4m_INPUT_GetMouseState(SDL_Event *event, PP4M_INPUT_POS *foo) {
 
