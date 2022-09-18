@@ -167,6 +167,8 @@ PP4M_HOOK *pp4m_HOOK_Init(void) {
 }
 
 int pp4m_HOOK_Size(PP4M_HOOK *head) {
+	if (head == NULL) return -1;
+	
     PP4M_HOOK *current = head; int index = 0;
 
 	for (int i = 0; ; i++) {
