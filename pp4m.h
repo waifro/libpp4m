@@ -79,6 +79,8 @@ int pp4m_Framerate(void);
 PP4M_HOOK *pp4m_HOOK_Init(void);
 int pp4m_HOOK_Size(PP4M_HOOK *head);
 void pp4m_HOOK_Next(PP4M_HOOK *head, void *ptr);
+void pp4m_HOOK_AttachHead(PP4M_HOOK **head, void *ptr);
+void pp4m_HOOK_RemoveHead(PP4M_HOOK **head);
 void pp4m_HOOK_Remove(PP4M_HOOK *head);
 
 int pp4m_p_itod(int foo);

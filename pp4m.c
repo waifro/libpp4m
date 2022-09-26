@@ -201,6 +201,33 @@ void pp4m_HOOK_Next(PP4M_HOOK *head, void *ptr) {
     return;
 }
 
+void pp4m_HOOK_AttachHead(PP4M_HOOK **head, void *ptr) {
+
+    if (*head->ptr == NULL && *head->next == NULL) {
+        *head->ptr = ptr;
+        return;
+    }
+
+    PP4M_HOOK *new_head = NULL;
+    new_head = (PP4M_HOOK*)malloc(sizeof(PP4M_HOOK));
+    
+    new_head->ptr = ptr;
+    new_head->next = *head;
+    *head = new_head;
+
+    return;
+}
+
+void pp4m_HOOK_RemoveHead(PP4M_HOOK **head) {
+    if (*head == NULL) return;
+
+    PP4M_HOOK *after_head = *head->next;
+    free(*head);
+    *head = after_head;
+
+    return;
+}
+
 void pp4m_HOOK_Remove(PP4M_HOOK *head) {
 
     if (head->next == NULL) {
