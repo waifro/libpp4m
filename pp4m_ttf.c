@@ -1,5 +1,7 @@
 /* Private Project Four Me */
 
+#include <string.h>
+
 #if __has_include(<SDL2/SDL_ttf.h>)
 
 #include <SDL2/SDL.h>
