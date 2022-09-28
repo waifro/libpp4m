@@ -220,13 +220,12 @@ void pp4m_HOOK_AttachHead(PP4M_HOOK **head, void *ptr) {
 }
 
 void pp4m_HOOK_RemoveHead(PP4M_HOOK **head) {
-    PP4M_HOOK *head_ptr = *head;
-    if (head_ptr == NULL) return;
+    if (head == NULL || *head == NULL) return;
 
-    PP4M_HOOK *after_head = head_ptr->next;
-    free(*head);
-    *head = after_head;
-
+    PP4M_HOOK *buf = *head;
+    *head = (PP4M_HOOK*)(*head)->next;
+    free(buf);
+    
     return;
 }
 
